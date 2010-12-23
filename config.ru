@@ -1,10 +1,9 @@
-puts "Making projects directory at tmp/projects"
-File.mkdirp "tmp/projects"
+require 'rubygems'
+require 'bundler/setup'
+Bundler.require(:default)
 
-puts "Cloning git repo"
-`git clone https://hoverlover@github.com/bustoutsolutions/affluence.git tmp/projects/affluence`
+project = ENV['cijoe_git_url'].split('/').last.chomp('.git')
+CIJoe::Server.set :project_path, File.expand_path("tmp/projects/#{project}")
 
 puts "Starting CI Joe"
-`cijoe tmp/projects/affluence`
-
-puts "Done"
+run CIJoe::Server
